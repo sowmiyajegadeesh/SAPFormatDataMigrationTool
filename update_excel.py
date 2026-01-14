@@ -62,7 +62,32 @@ def process_excel(src, dst):
     return f"Wrote modified file to '{dst}'"
 
 
-class ExcelModifier(QWidget):
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle('SAP Format Data Migration Tool')
+        self.setGeometry(300, 300, 400, 200)
+
+        layout = QVBoxLayout()
+
+        self.title_label = QLabel('Select a Tool:')
+        layout.addWidget(self.title_label)
+
+        self.excel_btn = QPushButton('Excel SKU Modifier')
+        self.excel_btn.clicked.connect(self.launch_excel_modifier)
+        layout.addWidget(self.excel_btn)
+
+        self.setLayout(layout)
+
+    def launch_excel_modifier(self):
+        self.excel_window = ExcelSKUModifier()
+        self.excel_window.show()
+
+
+class ExcelSKUModifier(QWidget):
     def __init__(self):
         super().__init__()
         self.input_file = None
@@ -128,7 +153,7 @@ class ExcelModifier(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = ExcelModifier()
-    window.show()
+    main_window = MainWindow()
+    main_window.show()
     sys.exit(app.exec_())
 
